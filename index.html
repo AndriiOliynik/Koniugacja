@@ -12,7 +12,6 @@
         #nav-exercises { margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
         .ex-nav-btn { background: #4a90e2; color: white; border: none; padding: 8px 12px; font-size: 13px; border-radius: 6px; cursor: pointer; }
 
-        /* Кнопки в один ряд без підписів */
         .icon-tools { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
         .icon-btn { width: 52px; height: 52px; border-radius: 50%; border: 1px solid #eee; background: white; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: 0.2s; }
         .icon-btn:active { transform: scale(0.9); background: #f5f5f5; }
@@ -20,9 +19,27 @@
         .mode-switch { display: flex; justify-content: center; gap: 10px; margin: 20px 0; border-top: 1px solid #eee; padding-top: 15px; }
         .mode-btn { padding: 10px 20px; border-radius: 20px; border: none; background: #eee; font-weight: bold; cursor: pointer; flex: 1; max-width: 150px; }
 
+        /* СТИЛЬ ДЛЯ ВЕЛИКИХ КНОПОК ТЕСТУ */
+        .test-choice-btn { 
+            padding: 18px 25px; 
+            font-size: 20px; 
+            min-width: 140px;
+            margin: 8px;
+            border-radius: 15px;
+            border: 2px solid #e0e6ed;
+            background: #fff;
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        .test-choice-btn:active { transform: translateY(2px); box-shadow: none; }
+
         input { padding: 14px; font-size: 18px; width: 100%; max-width: 300px; box-sizing: border-box; margin-bottom: 10px; border-radius: 12px; border: 2px solid #ddd; text-align: center; }
-        .btn-correct { background-color: #4CAF50 !important; color: white !important; }
-        .btn-wrong { background-color: #f44336 !important; color: white !important; animation: shake 0.3s; }
+        .btn-correct { background-color: #4CAF50 !important; color: white !important; border-color: #4CAF50 !important; }
+        .btn-wrong { background-color: #f44336 !important; color: white !important; border-color: #f44336 !important; animation: shake 0.3s; }
+        
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
         #ua { margin-top: 15px; font-style: italic; color: #666; min-height: 24px; }
@@ -62,14 +79,14 @@
         <button class="icon-btn" onclick="showUA(ex[i].ua)">🇺🇦</button>
     </div>
 
-    <div id="q" style="font-size: 1.3rem; margin-bottom: 20px; font-weight: 500;"></div>
+    <div id="q" style="font-size: 1.35rem; margin-bottom: 25px; font-weight: 500;"></div>
 
     <div class="mode-switch">
         <button id="mode-input" class="mode-btn" onclick="mode='input';render()">Wpisz</button>
         <button id="mode-test" class="mode-btn" onclick="mode='test';render()">Test</button>
     </div>
 
-    <div id="task"></div>
+    <div id="task" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;"></div>
     <div id="ua"></div>
 </div>
 
@@ -101,29 +118,29 @@ const verbs={"jeść":["jem","jesz","je","jemy","jecie","jedzą"],"umieć":["umi
 const ex=[
 {id:"2.1",s:"To nieprawda, że Polacy ___ codziennie bigos.",v:"jeść",a:"jedzą",ua:"Це неправда, що поляки їдять бігос щодня"},
 {id:"2.2",s:"Ty ___, że mówię prawdę.",v:"wiedzieć",a:"wiesz",ua:"Ти знаєш, що я кажу правду"},
-{id:"2.3",s:"Nie  ___ pływać.",v:"umieć",a:"umiem",ua:"Я не вмію плавати"},
-{id:"2.4",s:"Anna  ___ kolację tak późno.",v:"jeść",a:"je",ua:"Анна їсть вечерю пізно"},
-{id:"2.5",s:"Czego nie  ___?",v:"rozumieć",a:"rozumiesz",ua:"Чого ти не розумієш"},
-{id:"2.6",s:"Ja  ___ ile kosztuje samochód.",v:"wiedzieć",a:"wiem",ua:"Я знаю, скільки коштує авто"},
-{id:"2.7",s:"My nie  ___ proponować pomocy.",v:"śmieć",a:"śmiemy",ua:"Ми не сміємо пропонувати допомогу"},
-{id:"2.8",s:"Czy oni  ___ coś więcej?",v:"umieć",a:"umieją",ua:"Чи вони вміють щось більше"},
-{id:"2.9",s:"Jak ty  ___ tu przychodzić?",v:"śmieć",a:"śmiesz",ua:"Як ти смієш сюди приходити"},
+{id:"2.3",s:"Nie ___ pływać.",v:"umieć",a:"umiem",ua:"Я не вмію плавати"},
+{id:"2.4",s:"Anna ___ kolację tak późno.",v:"jeść",a:"je",ua:"Анна їсть вечерю пізно"},
+{id:"2.5",s:"Czego nie ___?",v:"rozumieć",a:"rozumiesz",ua:"Чого ти не розумієш"},
+{id:"2.6",s:"Ja ___ ile kosztuje samochód.",v:"wiedzieć",a:"wiem",ua:"Я знаю, скільки коштує авто"},
+{id:"2.7",s:"My nie ___ proponować pomocy.",v:"śmieć",a:"śmiemy",ua:"Ми не сміємо пропонувати допомогу"},
+{id:"2.8",s:"Czy oni ___ coś więcej?",v:"umieć",a:"umieją",ua:"Чи вони вміють щось більше"},
+{id:"2.9",s:"Jak ty ___ tu przychodzić?",v:"śmieć",a:"śmiesz",ua:"Як ти смієш сюди приходити"},
 {id:"2.10",s:"Wy nic nie ___.",v:"wiedzieć",a:"wiecie",ua:"Ви нічого не знаєте"},
 {id:"3.1",s:"Hania doskonale gotuje, ale nie ___ robić tak dobrego bigosu.",v:"umieć",a:"umie",ua:"Ганя добре готує, але не вміє"},
 {id:"3.2",s:"Nikt nie ___ przeszkadzać.",v:"śmieć",a:"śmie",ua:"Ніхто не сміє"},
 {id:"3.3.1",s:"Adrian ___ więcej niż koledzy.",v:"wiedzieć",a:"wie",ua:"Адріан знає більше"},
 {id:"3.3.2",s:"On nie ___ problemu.",v:"rozumieć",a:"rozumie",ua:"Він не розуміє"},
-{id:"3.4.1",s:"Kasia ___ tylko potrawy jarskie.",v:"jeść",a:"je",ua:"Касія їсть"},
+{id:"3.4.1",s:"Kasia ___ tylko potrawy jarskie.",v:"jeść",a:"je",ua:"Касія їсть лише пісні страви"},
 {id:"3.4.2",s:"Ja ___ wszystko.",v:"jeść",a:"jem",ua:"Я їм все"},
-{id:"3.5.1",s:"Papuga nie ___ mówić.",v:"umieć",a:"umie",ua:"Папуга не вміє"},
-{id:"3.5.2",s:"Nie ___ dlaczego.",v:"wiedzieć",a:"wiem",ua:"Я не знаю"},
-{id:"3.6.1",s:"Mężczyźni nie ___ kobiet.",v:"rozumieć",a:"rozumieją",ua:"Чоловіки не розуміють"},
-{id:"3.6.2",s:"Czy ktoś ___ mężczyzn?",v:"rozumieć",a:"rozumie",ua:"Хтось розуміє"},
-{id:"3.7.1",s:"Nie ___ zadzwonić.",v:"śmieć",a:"śmiem",ua:"Я не смію"},
-{id:"3.7.2",s:"Adam ___ codziennie.",v:"śmieć",a:"śmie",ua:"Адам сміє"},
-{id:"3.8.1",s:"Pan ___ za mało.",v:"umieć",a:"umie",ua:"Він вміє мало"},
+{id:"3.5.1",s:"Papuga nie ___ mówić.",v:"umieć",a:"umie",ua:"Папуга не вміє говорити"},
+{id:"3.5.2",s:"Nie ___ dlaczego.",v:"wiedzieć",a:"wiem",ua:"Я не знаю чому"},
+{id:"3.6.1",s:"Mężczyźni nie ___ kobiet.",v:"rozumieć",a:"rozumieją",ua:"Чоловіки не розуміють жінок"},
+{id:"3.6.2",s:"Czy ktoś ___ mężczyzn?",v:"rozumieć",a:"rozumie",ua:"Чи хтось розуміє чоловіків?"},
+{id:"3.7.1",s:"Nie ___ zadzwonić.",v:"śmieć",a:"śmiem",ua:"Я не смію дзвонити"},
+{id:"3.7.2",s:"Adam ___ codziennie.",v:"śmieć",a:"śmie",ua:"Адам сміє щодня"},
+{id:"3.8.1",s:"Pan ___ za mało.",v:"umieć",a:"umie",ua:"Він вміє замало"},
 {id:"3.8.2",s:"Pracownicy ___ więcej.",v:"wiedzieć",a:"wiedzą",ua:"Pracownicy wiedzą więcej"},
-{id:"4.1.1",s:"Ja nie ___ kłamać.",v:"umieć",a:"umiem",ua:"Ja nie umiem kłamać"},
+{id:"4.1.1",s:"Ja nie ___ kłamać.",v:"umieć",a:"umiem",ua:"Я не вмію брехати"},
 {id:"4.1.2",s:"A ty ___?",v:"umieć",a:"umiesz",ua:"A ty umiesz?"},
 {id:"4.2",s:"Janek nic nie ___ o spotkaniu.",v:"wiedzieć",a:"wie",ua:"Janek nic nie wie o spotkaniu"},
 {id:"4.3.1",s:"Nie mogę powiedzieć, że ___ cudzoziemców.",v:"rozumieć",a:"rozumiem",ua:"Nie mogę powiedzieć, że rozumiem cudzoziemców"},
@@ -136,55 +153,55 @@ const ex=[
 {id:"4.8",s:"Nie ___ niczego.",v:"wiedzieć",a:"wiem",ua:"Nie wiem niczego"},
 {id:"4.9",s:"Nie ___ zabierać głosu.",v:"śmieć",a:"śmiem",ua:"Nie śmiem zabierać głosu"},
 {id:"4.10",s:"Czy ty ___ wybaczać?",v:"umieć",a:"umiesz",ua:"Czy ty umiesz wybaczać?"},
-{id:"5.1", s:"My rzadko (jecie, jemy, jem) ___ w tej restauracji.", opts:["jecie","jemy","jem"], a:"jemy", ua:"Ми рідко їмо в цьому ресторані."},
-{id:"5.2", s:"Ja nie zawsze wiedziałem to wszystko, co (wiesz, wie, wiem) ___ teraz.", opts:["wiesz","wie","wiem"], a:"wiem", ua:"Я не завжди знав усе те, що знаю зараз."},
-{id:"5.3", s:"Janek ciągle jeszcze nie (umie, umiem, umiesz) ___ jeździć na rowerze.", opts:["umie","umiem","umiesz"], a:"umie", ua:"Янек досі не вміє їздити на велосипеді."},
+{id:"5.1", s:"My rzadko (jecie, jemy, jem) ___ w tej restauracji.", opts:["jecie","jemy","jem"], a:"jemy", ua:"Ми рідко їмо в ресторані."},
+{id:"5.2", s:"Ja nie zawsze wiedziałem to wszystko, co (wiesz, wie, wiem) ___ teraz.", opts:["wiesz","wie","wiem"], a:"wiem", ua:"Я не завжди знав усе це."},
+{id:"5.3", s:"Janek ciągle jeszcze nie (umie, umiem, umiesz) ___ jeździć na rowerze.", opts:["umie","umiem","umiesz"], a:"umie", ua:"Він досі не вміє їздити."},
 {id:"5.4", s:"Żona nie (śmiem, śmiesz, śmie) ___ go budzić.", opts:["śmiem","śmiesz","śmie"], a:"śmie", ua:"Дружина не сміє його будити."},
 {id:"5.5", s:"Chyba nie wszyscy to (rozumiesz, rozumiemy, rozumie) ___.", opts:["rozumiesz","rozumiemy","rozumie"], a:"rozumie", ua:"Мабуть, не всі це розуміють."},
-{id:"5.6", s:"Dzisiaj Anna i sąsiedzi (jemy, jedzą, jecie) ___ kolację.", opts:["jemy","jedzą","jecie"], a:"jedzą", ua:"Сьогодні Анна та сусіди їдять вечерю."},
-{id:"5.7", s:"Ty, synu, nie (wiesz, wiem, wie) ___ jeszcze wielu rzeczy.", opts:["wiesz","wiem","wie"], a:"wiesz", ua:"Ти, сину, не знаєш ще багатьох речей."},
-{id:"5.8", s:"Adam (umieją, umiecie, umie) ___ tyle, że może zdać.", opts:["umieją","umiecie","umie"], a:"umie", ua:"Адам знає стільки, що може скласти іспит."},
+{id:"5.6", s:"Dzisiaj Anna i sąsiedzi (jemy, jedzą, jecie) ___ kolację.", opts:["jemy","jedzą","jecie"], a:"jedzą", ua:"Сьогодні вони їдять вечерю."},
+{id:"5.7", s:"Ty, synu, nie (wiesz, wiem, wie) ___ jeszcze wielu rzeczy.", opts:["wiesz","wiem","wie"], a:"wiesz", ua:"Ти ще не знаєш багатьох речей."},
+{id:"5.8", s:"Adam (umieją, umiecie, umie) ___ tyle, że może zdać.", opts:["umieją","umiecie","umie"], a:"umie", ua:"Він знає достатньо."},
 {id:"6.1",s:"Nie ___ tańczyć.",v:"umieć",a:"umiem",ua:"Не вмію танцювати"},
-{id:"6.2",s:"Synowie ___ o niej więcej.",v:"wiedzieć",a:"wiedzą",ua:"Сини знають про неї більше"},
+{id:"6.2",s:"Synowie ___ o niej więcej.",v:"wiedzieć",a:"wiedzą",ua:"Сини знають більше"},
 {id:"6.3",s:"Polacy i Czesi nie ___ się.",v:"rozumieć",a:"rozumieją",ua:"Поляки та чехи не розуміють одне одного"},
 {id:"6.4",s:"Nawet kiedy wszystko ___",v:"umieć",a:"umiem",ua:"Навіть коли я все вмію"},
 {id:"6.5",s:"Nie ___ prosić.",v:"śmieć",a:"śmiem",ua:"Не смію просити"},
 {id:"6.6",s:"My ___ odmówić.",v:"umieć",a:"umiemy",ua:"Ми вміємо відмовити"},
 {id:"6.7",s:"Jeszcze nie ___",v:"wiedzieć",a:"wiemy",ua:"Ми ще не знаємо"},
-{id:"7.1", s:"Nie mogę ugotować bigosu, bo tego nie (umiem, znam, potrafię).", opts:["umiem","znam","potrafię"], a:"znam", ua:"Не можу приготувати бігос, бо не знаю рецепту."},
-{id:"7.2", s:"Nie rozwiążę, bo nie (rozumiem, wiem, znam).", opts:["rozumiem","wiem","znam"], a:"rozumiem", ua:"Не розв'яжу, бо не розумію."},
-{id:"7.3", s:"Nie pytaj o coś, czego nie (jem, znam, śpię).", opts:["jem","znam","śpię"], a:"znam", ua:"Не питай про те, чого не знаю."},
-{id:"7.4", s:"Nie proponuj ślimaków, bo ich nie (śmiem, jem, spożywam).", opts:["śmiem","jem","spożywam"], a:"jem", ua:"Не пропонуй равликів, бо я їх не їм."},
-{id:"7.5", s:"Nie (rozumiem, śmiem, umiem) występować publicznie.", opts:["rozumiem","śmiem","umiem"], a:"umiem", ua:"Не вмію виступати публічно."},
+{id:"7.1", s:"Nie mogę ugotować bigosu, bo tego nie (umiem, znam, potrafię).", opts:["umiem","znam","potrafię"], a:"znam", ua:"Не знаю рецепту."},
+{id:"7.2", s:"Nie rozwiążę, bo nie (rozumiem, wiem, znam).", opts:["rozumiem","wiem","znam"], a:"rozumiem", ua:"Не розумію."},
+{id:"7.3", s:"Nie pytaj o coś, czego nie (jem, znam, śpię).", opts:["jem","znam","śpię"], a:"znam", ua:"Не знаю цього."},
+{id:"7.4", s:"Nie proponuj ślimaków, bo ich nie (śmiem, jem, spożywam).", opts:["śmiem","jem","spożywam"], a:"jem", ua:"Я їх не їм."},
+{id:"7.5", s:"Nie (rozumiem, śmiem, umiem) występować publicznie.", opts:["rozumiem","śmiem","umiem"], a:"umiem", ua:"Не вмію виступати."},
 {id:"7.6", s:"Nie (wiem, pamiętam, umiem) gdzie mieszkasz.", opts:["wiem","pamiętam","umiem"], a:"wiem", ua:"Не знаю, де ти живеш."},
 {id:"7.7", s:"Nie (śmiem, wiem, rozumiem) za co.", opts:["śmiem","wiem","rozumiem"], a:"wiem", ua:"Не знаю за що."},
-{id:"7.8", s:"Nie (chcę, umiem, wiem) tak wcześnie zasypiać.", opts:["chcę","umiem","wiem"], a:"umiem", ua:"Не вмію так рано засинати."},
-{id:"8.1", s:"Dlaczego pan tak dużo (jeść) ___ , panie Macieju?", v:"jeść", a:"je", ua:"Чому ви так багато їсте, пане Мацею?"},
-{id:"8.2", s:"(wiedzieć) ___ , że ma pan apetyt.", v:"wiedzieć", a:"wiem", ua:"Я знаю, що у вас є апетит."},
-{id:"8.3", s:"Ach, nie (umieć) ___ pan sobie odmówić.", v:"umieć", a:"umie", ua:"Ох, ви не можете собі відмовити."},
-{id:"8.4", s:"A czy (wiedzieć) ___ pan, jakie są konsekwencje?", v:"wiedzieć", a:"wie", ua:"А чи знаєте ви, які наслідки?"},
+{id:"7.8", s:"Nie (chcę, umiem, wiem) tak wcześnie zasypiać.", opts:["chcę","umiem","wiem"], a:"umiem", ua:"Не вмію (не виходить) заснути."},
+{id:"8.1", s:"Dlaczego pan tak dużo (jeść) ___ , panie Macieju?", v:"jeść", a:"je", ua:"Чому ви так багато їсте?"},
+{id:"8.2", s:"(wiedzieć) ___ , że ma pan apetyt.", v:"wiedzieć", a:"wiem", ua:"Я знаю, що у вас апетит."},
+{id:"8.3", s:"Ach, nie (umieć) ___ pan sobie odmówić.", v:"umieć", a:"umie", ua:"Ви не вмієте собі відмовити."},
+{id:"8.4", s:"A czy (wiedzieć) ___ pan, jakie są konsekwencje?", v:"wiedzieć", a:"wie", ua:"Чи знаєте ви наслідки?"},
 {id:"8.5", s:"Jak (śmieć) ___ pana pouczać?", v:"śmieć", a:"śmiem", ua:"Як я смію вас повчати?"},
-{id:"8.6", s:"Przepraszam, ale (wiedzieć) ___ co robię.", v:"wiedzieć", a:"wiem", ua:"Перепрошую, але я знаю, що роблю."},
-{id:"8.7", s:"Nie (rozumieć) ___ jednak pańskiego zachowania.", v:"rozumieć", a:"rozumiem", ua:"Я не розумію, однак, вашої поведінки."},
-{id:"8.8", s:"Ja też (jeść) ___ obfite posiłki.", v:"jeść", a:"jem", ua:"Я теж їм ситні страви."},
-{id:"8.9", s:"My, Polacy, (jeść) ___ smacznie, ale za dużo.", v:"jeść", a:"jemy", ua:"Ми, поляки, їмо смачно, але забагато."},
-{id:"8.10", s:"Później nie (umieć) ___ poradzić sobie z nadwagą.", v:"umieć", a:"umiemy", ua:"Пізніше ми не можемо впоратися з зайвою вагою."},
-{id:"8.11", s:"Doskonale (wiedzieć) ___ , że to i pański problem.", v:"wiedzieć", a:"wiem", ua:"Чудово знаю, що це і ваша проблема."},
-{id:"8.12", s:"Sam pan (rozumieć) ___ , że powinniśmy walczyć.", v:"rozumieć", a:"rozumie", ua:"Ви самі розумієте, що ми повинні боротися."},
-{id:"8.13", s:"(śmieć) ___ twierdzić, iż to konieczność.", v:"śmieć", a:"śmiem", ua:"Смію стверджувати, що це необхідність."},
-{id:"8.14", s:"Jestem lekarzem i (umieć) ___ panu pomóc.", v:"umieć", a:"umiem", ua:"Я лікар і можу вам допомогти."},
-{id:"8.15", s:"Niech pan (jeść) ___ tylko raz dziennie.", v:"jeść", a:"je", ua:"Їжте лише раз на день."},
-{id:"8.16", s:"Czy (umieć) ___ pan gotować?", v:"umieć", a:"umie", ua:"Ви вмієте готувати?"},
-{id:"8.17", s:"My z żoną (jeść) ___ wyłącznie gotowane rzeczy.", v:"jeść", a:"jemy", ua:"Ми з дружиною їмо лише варене."},
-{id:"8.18", s:"Polacy nie (wiedzieć) ___ , jakie to ważne.", v:"wiedzieć", a:"wiedzą", ua:"Поляки не знають, як це важливо."},
-{id:"8.19", s:"Nie (rozumieć) ___ zasad dietetyki.", v:"rozumieć", a:"rozumieją", ua:"Вони не розуміють принципів дієтології."},
-{id:"8.20", s:"(jeść) ___ za tłusto, za słodko.", v:"jeść", a:"jedzą", ua:"Їдять занадто жирно, занадто солодко."},
-{id:"8.21", s:"I nikt nie (śmieć) ___ im tego powiedzieć.", v:"śmieć", a:"śmie", ua:"І ніхто не сміє їм цього сказати."},
-{id:"8.22", s:"Inne narody (wiedzieć) ___ , jak się odżywiać.", v:"wiedzieć", a:"wiedzą", ua:"Інші народи знають, як харчуватися."},
-{id:"8.23", s:"(jeść) ___ ryby, warzywa.", v:"jeść", a:"jedzą", ua:"Їдять рибу, овочі."},
-{id:"8.24", s:"My (jeść) ___ mięsa i słodycze.", v:"jeść", a:"jemy", ua:"Ми їмо м'ясо та солодощі."},
-{id:"8.25", s:"Czy nie (umieć) ___ tego zmienić?", v:"umieć", a:"umiemy", ua:"Чи ми не можемо цього змінити?"},
-{id:"8.26", s:"Nie (rozumieć) ___ , dlaczego jest pan zdenerwowany.", v:"rozumieć", a:"rozumiem", ua:"Я не розумію, чому ви знервовані."}
+{id:"8.6", s:"Przepraszam, ale (wiedzieć) ___ co robię.", v:"wiedzieć", a:"wiem", ua:"Я знаю, що роблю."},
+{id:"8.7", s:"Nie (rozumieć) ___ jednak pańskiego zachowania.", v:"rozumieć", a:"rozumiem", ua:"Я не розумію вашої поведінки."},
+{id:"8.8", s:"Ja też (jeść) ___ obfite posiłki.", v:"jeść", a:"jem", ua:"Я теж їм ситно."},
+{id:"8.9", s:"My, Polacy, (jeść) ___ smacznie, ale za dużo.", v:"jeść", a:"jemy", ua:"Ми їмо смачно, але забагато."},
+{id:"8.10", s:"Później nie (umieć) ___ poradzić sobie z nadwagą.", v:"umieć", a:"umiemy", ua:"Ми не вміємо впоратися з вагою."},
+{id:"8.11", s:"Doskonale (wiedzieć) ___ , że to i pański problem.", v:"wiedzieć", a:"wiem", ua:"Чудово знаю це."},
+{id:"8.12", s:"Sam pan (rozumieć) ___ , że powinniśmy walczyć.", v:"rozumieć", a:"rozumie", ua:"Ви самі розумієте."},
+{id:"8.13", s:"(śmieć) ___ twierdzić, iż to konieczność.", v:"śmieć", a:"śmiem", ua:"Смію стверджувати."},
+{id:"8.14", s:"Jestem lekarzem i (umieć) ___ panu pomóc.", v:"umieć", a:"umiem", ua:"Я можу допомогти."},
+{id:"8.15", s:"Niech pan (jeść) ___ tylko raz dziennie.", v:"jeść", a:"je", ua:"Їжте раз на день."},
+{id:"8.16", s:"Czy (umieć) ___ pan gotować?", v:"umieć", a:"umie", ua:"Вмієте готувати?"},
+{id:"8.17", s:"My z żoną (jeść) ___ wyłącznie gotowane rzeczy.", v:"jeść", a:"jemy", ua:"Ми їмо варене."},
+{id:"8.18", s:"Polacy nie (wiedzieć) ___ , jakie to ważne.", v:"wiedzieć", a:"wiedzą", ua:"Вони не знають."},
+{id:"8.19", s:"Nie (rozumieć) ___ zasad dietetyki.", v:"rozumieć", a:"rozumieją", ua:"Вони не розуміють."},
+{id:"8.20", s:"(jeść) ___ za tłusto, za słodko.", v:"jeść", a:"jedzą", ua:"Їдять зажирно."},
+{id:"8.21", s:"I nikt nie (śmieć) ___ im tego powiedzieć.", v:"śmieć", a:"śmie", ua:"Ніхто не сміє."},
+{id:"8.22", s:"Inne narody (wiedzieć) ___ , jak się odżywiać.", v:"wiedzieć", a:"wiedzą", ua:"Інші знають."},
+{id:"8.23", s:"(jeść) ___ ryby, warzywa.", v:"jeść", a:"jedzą", ua:"Їдять овочі."},
+{id:"8.24", s:"My (jeść) ___ mięsa i słodycze.", v:"jeść", a:"jemy", ua:"Ми їмо м'ясо."},
+{id:"8.25", s:"Czy nie (umieć) ___ tego zmienić?", v:"umieć", a:"umiemy", ua:"Ми не вміємо змінити це?"},
+{id:"8.26", s:"Nie (rozumieć) ___ , dlaczego jest pan zdenerwowany.", v:"rozumieć", a:"rozumiem", ua:"Не розумію чому."}
 ];
 
 let i=0, score=0, mode="input", voices=[], selectedVoiceIndex=0, speechRate=0.9, nextDelay=700;
@@ -202,7 +219,6 @@ function showToast(text, type) {
     setTimeout(() => { toast.style.opacity='0'; setTimeout(()=>toast.remove(),300); }, type==='info'?4000:2000);
 }
 
-// ПОВЕРНУТО ЛОГІКУ ГОЛОСУ З ПРИКЛАДУ
 function populateVoices() {
     voices = window.speechSynthesis.getVoices();
     const s = document.getElementById('voiceSelect');
@@ -238,10 +254,10 @@ function render() {
         qText = e.s.replace(/\(.*\)/, "");
         hintText = e.s.match(/\((.*)\)/)[1];
     }
-    document.getElementById("q").innerHTML = qText + `<br><span style="color:#4a90e2; font-size:0.9rem;">(${hintText})</span>`;
+    document.getElementById("q").innerHTML = qText + `<br><span style="color:#4a90e2; font-size:0.95rem;">(${hintText})</span>`;
 
     if (mode === "input") {
-        t.innerHTML = `<input id="a" placeholder="..." autocomplete="off" onkeypress="if(event.key==='Enter') check()"><br><button class="mode-btn" style="background:#4a90e2; color:white; max-width:200px;" onclick="check()">OK</button>`;
+        t.innerHTML = `<div style="width:100%"><input id="a" placeholder="..." autocomplete="off" onkeypress="if(event.key==='Enter') check()"><br><button class="mode-btn" style="background:#4a90e2; color:white; max-width:200px; padding:12px;" onclick="check()">OK</button></div>`;
         setTimeout(()=>document.getElementById("a").focus(), 150);
     } else {
         let choices = e.v ? [e.a] : [...e.opts];
@@ -251,7 +267,7 @@ function render() {
         }
         choices.sort(()=>Math.random()-0.5).forEach(o => {
             let b = document.createElement("button");
-            b.className = "mode-btn"; b.style.margin = "5px";
+            b.className = "test-choice-btn"; 
             b.innerText = o; b.onclick = () => check(o, b);
             t.appendChild(b);
         });
@@ -261,9 +277,10 @@ function render() {
 function check(val, btn) {
     let e = ex[i];
     let input = document.getElementById("a");
-    if (!val && input) val = input.value.trim();
-
-    if (val == e.a) {
+    if (!val && input) val = input.value.trim().toLowerCase();
+    
+    // Порівняння без врахування регістру
+    if (val.toLowerCase() == e.a.toLowerCase()) {
         if(btn) btn.classList.add("btn-correct");
         score++; document.getElementById("score").innerText = score;
         showToast("Dobrze! 🎉", "success");
