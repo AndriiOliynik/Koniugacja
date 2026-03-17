@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+<div id="nav-exercises" style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 5px;"></div>
 <meta charset="UTF-8">
 <title>Trenażer pełny</title>
 
 <style>
+
 body{
     font-family: Arial, sans-serif;
     max-width: 1100px;
@@ -19,6 +21,17 @@ body{
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
+.ex-nav-btn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.ex-nav-btn:hover { background: #357abd; }
+
 /* Робимо кнопки більшими, щоб по них було зручно влучати пальцем */
   button {
     margin: 5px 2px;
@@ -97,7 +110,7 @@ input.wrong {
 
 <button onclick="listen()">🔊 Posłuchaj</button>
 <button onclick="hint()">💡 Podpowiedź</button>
-
+<button onclick="showUA(ex[i].ua)">🇺🇦 Tłumaczenie</button> ```
 <br>
 
 <button onclick="mode='input';render()">Wpisz</button>
@@ -168,14 +181,15 @@ const ex=[
 {id:"4.10",s:"Czy ty ___ wybaczać?",v:"umieć",a:"umiesz",ua:"Ти вмієш?"},
 
 // ===== ĆWICZENIE 5 =====
-{id:"5.1",s:"My rzadko ___ w tej restauracji.",opts:["jecie","jemy","jem"],a:"jemy",ua:"Ми рідко їмо в цьому ресторані"},
-{id:"5.2",s:"To wszystko, co ___ teraz.",opts:["wiesz","wie","wiem"],a:"wiem",ua:"Те, що я знаю зараз"},
-{id:"5.3",s:"Janek nie ___ jeździć na rowerze.",opts:["umie","umiem","umiesz"],a:"umie",ua:"Янек не вміє їздити"},
-{id:"5.4",s:"Żona nie ___ go budzić.",opts:["śmiem","śmiesz","śmie"],a:"śmie",ua:"Дружина не сміє будити"},
-{id:"5.5",s:"Nie wszyscy to ___",opts:["rozumiesz","rozumiemy","rozumie"],a:"rozumie",ua:"Не всі це розуміють"},
-{id:"5.6",s:"Anna i sąsiedzi ___ kolację.",opts:["jemy","jedzą","jecie"],a:"jedzą",ua:"Вони їдять вечерю"},
-{id:"5.7",s:"Ty nie ___ wielu rzeczy.",opts:["wiesz","wiem","wie"],a:"wiesz",ua:"Ти не знаєш"},
-{id:"5.8",s:"Adam ___ tyle, że zda egzamin.",opts:["umieją","umiecie","umie"],a:"umie",ua:"Адам вміє"},
+{id:"5.1", s:"My rzadko (jecie, jemy, jem) ___ w tej restauracji. Tutaj jest za drogo.", opts:["jecie","jemy","jem"], a:"jemy", ua:"Ми рідко їмо в цьому ресторані. Тут задорого."},
+{id:"5.2", s:"Ja nie zawsze wiedziałem to wszystko, co (wiesz, wie, wiem) ___ teraz.", opts:["wiesz","wie","wiem"], a:"wiem", ua:"Я не завжди знав усе те, що знаю зараз."},
+{id:"5.3", s:"Janek ciągle jeszcze nie (umie, umiem, umiesz) ___ jeździć na rowerze.", opts:["umie","umiem","umiesz"], a:"umie", ua:"Янек досі не вміє їздити на велосипеді."},
+{id:"5.4", s:"Pan Kowalski śpi tak smacznie, że jego żona nie (śmiem, śmiesz, śmie) ___ go budzić.", opts:["śmiem","śmiesz","śmie"], a:"śmie", ua:"Пан Ковальський так смачно спить, що дружина не сміє його будити."},
+{id:"5.5", s:"Zagrożenia ekologiczne są naszym wspólnym problemem. Ale chyba nie wszyscy to (rozumiesz, rozumiemy, rozumie) ___.", opts:["rozumiesz","rozumiemy","rozumie"], a:"rozumie", ua:"Екологічні загрози - наша спільна проблема. Але не всі це розуміють."},
+{id:"5.6", s:"Dzisiaj Anna i jej sąsiedzi razem (jemy, jedzą, jecie) ___ kolację.", opts:["jemy","jedzą","jecie"], a:"jedzą", ua:"Сьогодні Анна та її сусіди разом їдять вечерю."},
+{id:"5.7", s:"Ty, synu, nie (wiesz, wiem, wie) ___ jeszcze wielu rzeczy.", opts:["wiesz","wiem","wie"], a:"wiesz", ua:"Ти, сину, не знаєш ще багатьох речей."},
+{id:"5.8", s:"Adam, w przeciwieństwie do swoich kolegów, (umieją, umiecie, umie) ___ tyle, że może zdać egzamin.", opts:["umieją","umiecie","umie"], a:"umie", ua:"Адам знає достатньо, щоб скласти іспит."},
+
 
 // ===== ĆWICZENIE 6 =====
 {id:"6.1",s:"Nie ___ tańczyć.",v:"umieć",a:"umiem",ua:"Я не вмію танцювати"},
@@ -187,150 +201,167 @@ const ex=[
 {id:"6.7",s:"Jeszcze nie ___",v:"wiedzieć",a:"wiemy",ua:"Ми не знаємо"},
 
 // ===== ĆWICZENIE 7 =====
-{id:"7.1",s:"Nie mogę ugotować bo nie",opts:["umiem","znam","potrafię"],a:"znam",ua:"Я не знаю"},
-{id:"7.2",s:"Nie rozwiążę bo nie",opts:["rozumiem","wiem","znam"],a:"wiem",ua:"Я не знаю"},
-{id:"7.3",s:"Nie pytaj bo nie",opts:["jem","znam","śpię"],a:"śpię",ua:"Я сплю"},
-{id:"7.4",s:"Nie jem ślimaków bo nie",opts:["śmiem","jem","spożywam"],a:"śmiem",ua:"Я не смію"},
-{id:"7.5",s:"Nie wystąpię bo nie",opts:["rozumiem","śmiem","umiem"],a:"rozumiem",ua:"Я не розумію"},
-{id:"7.6",s:"Nie przyjdę bo nie",opts:["wiem","pamiętam","umiem"],a:"umiem",ua:"Я не вмію"},
-{id:"7.7",s:"Nie przeproszę bo nie",opts:["śmiem","wiem","rozumiem"],a:"rozumiem",ua:"Я не розумію"},
-{id:"7.8",s:"Nie pójdę spać bo nie",opts:["chcę","umiem","wiem"],a:"wiem",ua:"Я не знаю"},
+{id:"7.1", s:"Nie mogę ugotować bigosu, bo tego nie (umiem, znam, potrafię).", opts:["umiem","znam","potrafię"], a:"znam", ua:"Я не знаю (рецепту)"},
+{id:"7.2", s:"Nie rozwiążę tego zadania, bo go nie (rozumiem, wiem, znam).", opts:["rozumiem","wiem","znam"], a:"rozumiem", ua:"Я не розумію (суті завдання)"},
+{id:"7.3", s:"Nie pytaj mnie o coś, czego nie (jem, znam, śpię).", opts:["jem","znam","śpię"], a:"znam", ua:"Я не знаю (цього)"},
+{id:"7.4", s:"Nie proponuj mi na kolację ślimaków, bo ich nigdy nie (śmiem, jem, spożywam).", opts:["śmiem","jem","spożywam"], a:"jem", ua:"Я їх не їм"},
+{id:"7.5", s:"Nie wygłoszę tego referatu, bo nie (rozumiem, śmiem, umiem) występować publicznie.", opts:["rozumiem","śmiem","umiem"], a:"umiem", ua:"Я не вмію виступати"},
+{id:"7.6", s:"Nie mogę przyjść do ciebie, bo nie (wiem, pamiętam, umiem) gdzie ty właściwie mieszkasz.", opts:["wiem","pamiętam","umiem"], a:"wiem", ua:"Я не знаю, де ти живеш"},
+{id:"7.7", s:"Nie przeproszę Marcina, bo nie (śmiem, wiem, rozumiem) za co.", opts:["śmiem","wiem","rozumiem"], a:"wiem", ua:"Я не знаю за що"},
+{id:"7.8", s:"Nie pójdę jeszcze do łóżka, bo nie (chcę, umiem, wiem) tak wcześnie zasypiać.", opts:["chcę","umiem","wiem"], a:"umiem", ua:"Я не вмію (не виходить) так рано засинати"},
 
-// ===== ĆWICZENIE 8 (фрагмент приклад) =====
-{id:"8.1",s:"Dlaczego pan tak dużo ___?",v:"jeść",a:"je",ua:"Чому ви так багато їсте"},
-{id:"8.2",s:"___ że ma pan apetyt.",v:"wiedzieć",a:"wiem",ua:"Я знаю"},
-{id:"8.3",s:"Nie ___ pan odmówić.",v:"umieć",a:"umie",ua:"Ви не вмієте"},
-{id:"8.4",s:"Czy ___ pan?",v:"wiedzieć",a:"wie",ua:"Чи ви знаєте"},
-{id:"8.5",s:"Jak ___ pana pouczać?",v:"śmieć",a:"śmiem",ua:"Як я смію"},
-{id:"8.6",s:"___ co robię.",v:"wiedzieć",a:"wiem",ua:"Я знаю"},
-{id:"8.7",s:"Nie ___ zachowania.",v:"rozumieć",a:"rozumiem",ua:"Я не розумію"},
-{id:"8.8",s:"Ja też ___ obfite posiłki.",v:"jeść",a:"jem",ua:"Я теж їм"}
+// ===== ĆWICZENIE 8 =====
+{id:"8.1", s:"Dlaczego pan так dużo (jeść) ___ , panie Macieju?", v:"jeść", a:"je", ua:"Чому ви так багато їсте, пане Мацею?"},
+{id:"8.2", s:"(wiedzieć) ___ , że ma pan apetyt, ale...", v:"wiedzieć", a:"wiem", ua:"Я знаю, що у вас апетит, але..."},
+{id:"8.3", s:"Ach, nie (umieć) ___ pan sobie odmówić.", v:"umieć", a:"umie", ua:"Ах, ви не вмієте собі відмовити."},
+{id:"8.4", s:"A czy (wiedzieć) ___ pan, jakie są tego konsekwencje?", v:"wiedzieć", a:"wie", ua:"А чи знаєте ви, які від цього наслідки?"},
+{id:"8.5", s:"Jak (śmieć) ___ pana pouczać?", v:"śmieć", a:"śmiem", ua:"Як я смію вас повчати?"},
+{id:"8.6", s:"Przepraszam, ale (wiedzieć) ___ co robię.", v:"wiedzieć", a:"wiem", ua:"Вибачте, але я знаю, що роблю."},
+{id:"8.7", s:"Nie (rozumieć) ___ jednak pańskiego zachowania.", v:"rozumieć", a:"rozumiem", ua:"Однак я не розумію вашої поведінки."},
+{id:"8.8", s:"Ja też (jeść) ___ obfite posiłki.", v:"jeść", a:"jem", ua:"Я теж їм ситні страви."},
+{id:"8.9", s:"My, Polacy, (jeść) ___ smacznie, ale zbyt dużo.", v:"jeść", a:"jemy", ua:"Ми, поляки, їмо смачно, але забагато."},
+{id:"8.10", s:"Później nie (umieć) ___ poradzić sobie z nadwagą.", v:"umieć", a:"umiemy", ua:"Пізніше ми не вміємо впоратися з зайвою вагою."},
+{id:"8.11", s:"Doskonale (wiedzieć) ___ , że to i pański podstawowy problem.", v:"wiedzieć", a:"wiem", ua:"Я чудово знаю, що це і ваша основна проблема."},
+{id:"8.12", s:"Sam pan (rozumieć) ___ , że powinniśmy z tym walczyć.", v:"rozumieć", a:"rozumie", ua:"Ви самі розумієте, що ми маємо з цим боротися."},
+{id:"8.13", s:"(śmieć) ___ twierdzić, iż to konieczność.", v:"śmieć", a:"śmiem", ua:"Смію стверджувати, що це необхідність."},
+{id:"8.14", s:"Jestem lekarzem i (umieć) ___ panu pomóc.", v:"umieć", a:"umiem", ua:"Я лікар і вмію вам допомогти."},
+{id:"8.15", s:"Niech pan (jeść) ___ tylko raz dziennie.", v:"jeść", a:"je", ua:"Їжте лише раз на день (нехай пан їсть)."},
+{id:"8.16", s:"Czy (umieć) ___ pan gotować?", v:"umieć", a:"umie", ua:"Чи вмієте ви готувати?"},
+{id:"8.17", s:"My z żoną (jeść) ___ wyłącznie gotowane rzeczy.", v:"jeść", a:"jemy", ua:"Ми з дружиною їмо виключно варені речі."},
+{id:"8.18", s:"Polacy nie (wiedzieć) ___ , jakie to ważne.", v:"wiedzieć", a:"wiedzą", ua:"Поляки не знають, як це важливо."},
+{id:"8.19", s:"Nie (rozumieć) ___ zasad dietetyki.", v:"rozumieć", a:"rozumieją", ua:"Вони не розуміють принципів дієтології."},
+{id:"8.20", s:"(jeść) ___ za tłusto, za słodko i zbyt kalorycznie.", v:"jeść", a:"jedzą", ua:"Вони їдять занадто жирно, солодко і калорійно."},
+{id:"8.21", s:"I nikt nie (śmieć) ___ im tego głośno powiedzieć.", v:"śmieć", a:"śmie", ua:"І ніхто не сміє їм цього вголос сказати."},
+{id:"8.22", s:"Inne narody (wiedzieć) ___ , jak się odżywiać.", v:"wiedzieć", a:"wiedzą", ua:"Інші народи знають, як харчуватися."},
+{id:"8.23", s:"(jeść) ___ ryby, warzywa, owoce.", v:"jeść", a:"jedzą", ua:"Вони їдять рибу, овочі, фрукти."},
+{id:"8.24", s:"My (jeść) ___ mięsa, wędliny i słodycze.", v:"jeść", a:"jemy", ua:"Ми їмо м'ясо, ковбаси та солодощі."},
+{id:"8.25", s:"Czy nie (umieć) ___ tego zmienić?", v:"umieć", a:"umiemy", ua:"Чи ми не вміємо цього змінити?"},
+{id:"8.26", s:"Nie (rozumieć) ___ , dlaczego jest pan zdenerwowany.", v:"rozumieć", a:"rozumiem", ua:"Я не розумію, чому ви роздратовані."}
 
 ]
 
 let i=0,score=0,mode="input"
 document.getElementById("total").innerText=ex.length
 
-function render(){
-let e=ex[i]
-document.getElementById("nr").innerText=e.id
-//показує питання
-if(e.v) {
-       // document.getElementById("q").innerText = e.s + " (" + e.v + ")";
-// #e74c3c
-document.getElementById("q").innerHTML = e.s + " <span style='color: #007bff; font-weight: bold;'>(" + e.v + ")</span>";
-    } else {
-        document.getElementById("q").innerText = e.s;
-    }
-    
-    document.getElementById("ua").innerText = ""
-
-let t=document.getElementById("task")
-t.innerHTML=""
-
-if(e.v){
-
-if(mode=="input"){
-//t.innerHTML="<input id='a'><button onclick='check()'>OK</button>"
-
-t.innerHTML = "<input id='a' onkeypress='if(event.key===\"Enter\") check()'><button onclick=\"check()\">OK</button>"
-}
-
-if(mode=="test"){
-let arr=[e.a]
-while(arr.length<4){
-let v=verbs[e.v][Math.floor(Math.random()*6)]
-if(!arr.includes(v))arr.push(v)
-}
-arr.sort(()=>Math.random()-0.5)
-arr.forEach(o=>{
-let b=document.createElement("button")
-b.innerText=o
-b.onclick=()=>check(o,b)
-t.appendChild(b)
-})
-}
-
-if(mode=="drag"){
-    let drop=document.createElement("div")
-    drop.className="drop"
-    drop.innerText="___"
-    drop.ondrop=ev=>{
-        ev.preventDefault()
-        let w=ev.dataTransfer.getData("text")
-        if(w==e.a){
-            drop.innerText=w
-            drop.classList.add("correct") // додаємо колір
-            score++
-            update()
-            speak()
-            showUA(e.ua)
-        }else {
-            drop.classList.add("wrong")
-            setTimeout(render, 500)
-        }
-    }
-    drop.ondragover=e=>e.preventDefault()
-    t.appendChild(drop)
-
-    // Створюємо масив варіантів
-    let arr=[e.a]
-    while(arr.length<4){
-        let v=verbs[e.v][Math.floor(Math.random()*6)]
-        if(!arr.includes(v))arr.push(v)
-    }
-    
-    // --- ОСЬ ЦЕЙ РЯДОК ПЕРЕМІШУЄ СЛОВА ---
-    arr.sort(() => Math.random() - 0.5) 
-    // ------------------------------------
-
-    arr.forEach(w=>{
-        let s=document.createElement("span")
-        s.className="word"
-        s.innerText=w
-        s.draggable=true
-        s.ondragstart=e=>e.dataTransfer.setData("text",w)
-        t.appendChild(s)
-    })
-}
-}
-if(e.opts && mode=="test"){
-e.opts.forEach(o=>{
-let b=document.createElement("button")
-b.innerText=o
-b.onclick=()=>check(o,b)
-t.appendChild(b)
-})
-}
-}
-
-function check(val, btn) {
+function render() {
     let e = ex[i];
-    let inputField = document.getElementById("a"); // Отримуємо поле вводу
+    document.getElementById("nr").innerText = e.id;
+    document.getElementById("ua").innerText = "";
     
-    if (!val) val = inputField.value.trim().toLowerCase(); // Беремо значення з інпуту
+    let t = document.getElementById("task");
+    t.innerHTML = "";
 
-    if (val == e.a.toLowerCase()) {
-        // ПРАВИЛЬНО
-        if (btn) btn.classList.add("correct"); // Якщо це був режим "Тест" (кнопка)
-        if (inputField) inputField.classList.add("correct"); // Якщо це режим "Вписати"
+    let displaySentence = e.s;
+    let hintText = "";
+
+    // 1. ЛОГІКА ОБРОБКИ ПИТАННЯ ТА СИНЬОЇ ПІДКАЗКИ
+    if (e.v || e.opts) {
+        // Шукаємо текст у дужках (...)
+        let match = e.s.match(/\((.*)\)/);
         
+        if (match) {
+            hintText = match[1]; // Те, що було в дужках
+            // Видаляємо дужки з речення, щоб вони не дублювалися
+            displaySentence = e.s.replace(/\(.*\)/, "");
+        } else if (e.v) {
+            hintText = e.v; // Якщо дужок немає, беремо інфінітив з поля v
+        }
+
+        // Додаємо синю підказку в кінець речення
+        displaySentence += ` <span style='color: #007bff; font-weight: bold;'>(${hintText})</span>`;
+    }
+
+    document.getElementById("q").innerHTML = displaySentence;
+
+    // 2. ЛОГІКА РЕЖИМІВ (INPUT, TEST, DRAG)
+    if (mode === "input") {
+        t.innerHTML = `<input id="a" autocomplete="off" onkeypress="if(event.key==='Enter') check()"><button onclick="check()">OK</button>`;
+        setTimeout(() => document.getElementById("a").focus(), 10);
+    }
+
+    if (mode === "test") {
+        let choices = e.v ? [e.a] : [...e.opts];
+        if (e.v) {
+            while (choices.length < 4) {
+                let v = verbs[e.v][Math.floor(Math.random() * 6)];
+                if (!choices.includes(v)) choices.push(v);
+            }
+        }
+        choices.sort(() => Math.random() - 0.5);
+        choices.forEach(o => {
+            let b = document.createElement("button");
+            b.innerText = o;
+            b.onclick = () => check(o, b);
+            t.appendChild(b);
+        });
+    }
+
+    if (mode === "drag") {
+        let drop = document.createElement("div");
+        drop.className = "drop";
+        drop.innerText = "___";
+        drop.ondrop = ev => {
+            ev.preventDefault();
+            let w = ev.dataTransfer.getData("text");
+            if (w == e.a) {
+                drop.innerText = w;
+                drop.classList.add("correct");
+                score++; update(); speak(); showUA(e.ua);
+            } else {
+                drop.classList.add("wrong");
+                setTimeout(render, 500);
+            }
+        };
+        drop.ondragover = ev => ev.preventDefault();
+        t.appendChild(drop);
+
+        let words = e.v ? [e.a] : [...e.opts];
+        if (e.v) {
+            while (words.length < 4) {
+                let v = verbs[e.v][Math.floor(Math.random() * 6)];
+                if (!words.includes(v)) words.push(v);
+            }
+        }
+        words.sort(() => Math.random() - 0.5);
+        words.forEach(w => {
+            let s = document.createElement("span");
+            s.className = "word";
+            s.innerText = w;
+            s.draggable = true;
+            s.ondragstart = ev => ev.dataTransfer.setData("text", w);
+            t.appendChild(s);
+        });
+    }
+}function check(val, btn) {
+    let e = ex[i];
+    let inputField = document.getElementById("a");
+    
+    // Якщо val не передано (режим input), беремо текст з поля
+    if (!val && inputField) val = inputField.value.trim();
+
+    if (val == e.a) {
+        if (btn) btn.classList.add("correct");
+        if (inputField) inputField.classList.add("correct");
         score++;
         update();
-        speak();
+        speak(); // Озвучка сама перемкне на наступне через 0.5с
         showUA(e.ua);
     } else {
-        // НЕПРАВИЛЬНО
         if (btn) btn.classList.add("wrong");
         if (inputField) {
             inputField.classList.add("wrong");
-            // Через 500мс прибираємо колір помилки, щоб користувач міг виправити
             setTimeout(() => inputField.classList.remove("wrong"), 500);
         }
     }
 }
-
-function showUA(t){document.getElementById("ua").innerText="UA: "+t}
+function showUA(t) {
+    let uaDiv = document.getElementById("ua");
+    if (uaDiv.innerText.includes(t)) {
+        uaDiv.innerText = ""; // Сховати, якщо вже показано
+    } else {
+        uaDiv.innerText = "UA: " + t; // Показати
+    }
+}
 function update(){document.getElementById("score").innerText=score}
 
 let plVoice = null
@@ -349,30 +380,40 @@ speechSynthesis.onvoiceschanged = loadVoices
 // fallback
 loadVoices()
 
-function speak(){
-let e=ex[i]
+function speak() {
+    let e = ex[i];
+    let textToSpeak = e.s;
 
-let utter=new SpeechSynthesisUtterance(
-e.s.replace("___", e.a)
-)
+    // 1. Якщо в реченні є дужки (як у вправах 5, 7, 8), замінюємо їх на відповідь
+    if (textToSpeak.includes("(")) {
+        textToSpeak = textToSpeak.replace(/\(.*\)/, e.a);
+    } 
+    
+    // 2. Якщо залишилися підкреслення ___ (як у вправі 2), замінюємо їх на відповідь
+    if (textToSpeak.includes("___")) {
+        textToSpeak = textToSpeak.replace("___", e.a);
+    }
 
-utter.lang = "pl-PL"
+    // 3. На випадок, якщо підкреслень не було, а відповідь просто треба вставити (захист)
+    if (textToSpeak === e.s && !e.s.includes(e.a)) {
+        // Якщо текст не змінився, просто додаємо відповідь в кінець (опційно)
+        // textToSpeak = e.s + " " + e.a; 
+    }
 
-if(plVoice){
-utter.voice = plVoice
-}
+    let utter = new SpeechSynthesisUtterance(textToSpeak);
+    utter.lang = "pl-PL";
+    if (plVoice) utter.voice = plVoice;
+    utter.rate = 0.9;
 
-utter.rate = 0.95
+    // Автоматичний перехід до наступного питання
+    utter.onend = () => {
+        setTimeout(() => {
+            next();
+        }, 500);
+    };
 
-// 🔥 КЛЮЧОВЕ
-utter.onend = () => {
-setTimeout(() => {
-next()
-}, 500)
-}
-
-speechSynthesis.cancel()
-speechSynthesis.speak(utter)
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utter);
 }
 
 function listen(){
@@ -403,6 +444,31 @@ function prev(){if(i>0)i--;render()}
 function shuffle(){ex.sort(()=>Math.random()-0.5);i=0;render()}
 
 render()
+function initExNavigation() {
+    const nav = document.getElementById("nav-exercises");
+    nav.innerHTML = ""; // Очищуємо
+
+    // Знаходимо унікальні префікси вправ (напр. "2", "3", "7")
+    const exerciseNumbers = [...new Set(ex.map(item => item.id.split('.')[0]))];
+
+    exerciseNumbers.forEach(num => {
+        let btn = document.createElement("button");
+        btn.className = "ex-nav-btn";
+        btn.innerText = "Ćw " + num;
+        btn.onclick = () => {
+            // Шукаємо індекс першого елемента цієї вправи
+            let firstIndex = ex.findIndex(item => item.id.startsWith(num + "."));
+            if (firstIndex !== -1) {
+                i = firstIndex;
+                render();
+            }
+        };
+        nav.appendChild(btn);
+    });
+}
+
+// Викликаємо функцію створення навігації один раз при старті
+initExNavigation();
 
 </script>
 
