@@ -148,7 +148,9 @@ let e=ex[i]
 document.getElementById("nr").innerText=e.id
 //показує питання
 if(e.v) {
-        document.getElementById("q").innerText = e.s + " (" + e.v + ")";
+       // document.getElementById("q").innerText = e.s + " (" + e.v + ")";
+// #e74c3c
+document.getElementById("q").innerHTML = e.s + " <span style='color: #007bff; font-weight: bold;'>(" + e.v + ")</span>";
     } else {
         document.getElementById("q").innerText = e.s;
     }
@@ -157,6 +159,15 @@ if(e.v) {
 
 let t=document.getElementById("task")
 t.innerHTML=""
+
+// Виводимо речення
+    let questionHtml = e.s;
+    // Якщо є дієслово, додаємо його знизу дрібнішим шрифтом або іншим кольором
+    if(e.v) {
+        questionHtml += `<br><small style="color:#666">Infinitiv: <b>${e.v}</b></small>`;
+    }
+
+
 
 if(e.v){
 
