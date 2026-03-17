@@ -37,6 +37,17 @@ input {
     box-sizing: border-box;
     margin-bottom: 10px;
   }
+input.correct {
+    background-color: #b7f5b7 !important;
+    border: 2px solid #4CAF50;
+    transition: background 0.3s;
+}
+
+input.wrong {
+    background-color: #f7b7b7 !important;
+    border: 2px solid #f44336;
+    transition: background 0.3s;
+}
 .correct { background: #b7f5b7 !important; border-color: #4CAF50 !important; }
 .wrong { background: #f7b7b7 !important; border-color: #f44336 !important; }
 /* Адаптація для Drag-and-drop на мобільних (хоча drag складний для тачскрінів) */
@@ -291,16 +302,30 @@ t.appendChild(b)
 }
 }
 
-function check(val,btn){
-let e=ex[i]
-if(!val)val=document.getElementById("a").value
-if(val==e.a){
-if(btn)btn.classList.add("correct")
-score++
-update()
-speak()
-showUA(e.ua)
-}else if(btn)btn.classList.add("wrong")
+function check(val, btn) {
+    let e = ex[i];
+    let inputField = document.getElementById("a"); // Отримуємо поле вводу
+    
+    if (!val) val = inputField.value.trim().toLowerCase(); // Беремо значення з інпуту
+
+    if (val == e.a.toLowerCase()) {
+        // ПРАВИЛЬНО
+        if (btn) btn.classList.add("correct"); // Якщо це був режим "Тест" (кнопка)
+        if (inputField) inputField.classList.add("correct"); // Якщо це режим "Вписати"
+        
+        score++;
+        update();
+        speak();
+        showUA(e.ua);
+    } else {
+        // НЕПРАВИЛЬНО
+        if (btn) btn.classList.add("wrong");
+        if (inputField) {
+            inputField.classList.add("wrong");
+            // Через 500мс прибираємо колір помилки, щоб користувач міг виправити
+            setTimeout(() => inputField.classList.remove("wrong"), 500);
+        }
+    }
 }
 
 function showUA(t){document.getElementById("ua").innerText="UA: "+t}
