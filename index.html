@@ -58,15 +58,15 @@ const verbs={
 const ex=[
 // ===== ĆWICZENIE 2 =====
 {id:"2.1",s:"To nieprawda, że Polacy (jeść) ___ codziennie bigos.",v:"jeść",a:"jedzą",ua:"Це неправда, що поляки їдять бігос щодня"},
-{id:"2.2",s:"Ty (wiedzieć) ___, że mówię prawdę.",v:"wiedzieć",a:"wiesz",ua:"Ти знаєш, що я кажу правду"},
-{id:"2.3",s:"Nie (umieć) ___ pływać.",v:"umieć",a:"umiem",ua:"Я не вмію плавати"},
-{id:"2.4",s:"Anna (jeść) ___ kolację tak późno.",v:"jeść",a:"je",ua:"Анна їсть вечерю пізно"},
-{id:"2.5",s:"Czego nie (rozumieć) ___?",v:"rozumieć",a:"rozumiesz",ua:"Чого ти не розумієш"},
-{id:"2.6",s:"Ja (wiedzieć) ___ ile kosztuje samochód.",v:"wiedzieć",a:"wiem",ua:"Я знаю, скільки коштує авто"},
-{id:"2.7",s:"My nie (śmieć) ___ proponować pomocy.",v:"śmieć",a:"śmiemy",ua:"Ми не сміємо пропонувати допомогу"},
-{id:"2.8",s:"Czy oni (umieć) ___ coś więcej?",v:"umieć",a:"umieją",ua:"Чи вони вміють щось більше"},
-{id:"2.9",s:"Jak ty (śmieć) ___ tu przychodzić?",v:"śmieć",a:"śmiesz",ua:"Як ти смієш сюди приходити"},
-{id:"2.10",s:"Wy nic nie (wiedzieć)___.",v:"wiedzieć",a:"wiecie",ua:"Ви нічого не знаєте"},
+{id:"2.2",s:"Ty ___, że mówię prawdę.",v:"wiedzieć",a:"wiesz",ua:"Ти знаєш, що я кажу правду"},
+{id:"2.3",s:"Nie  ___ pływać.",v:"umieć",a:"umiem",ua:"Я не вмію плавати"},
+{id:"2.4",s:"Anna  ___ kolację tak późno.",v:"jeść",a:"je",ua:"Анна їсть вечерю пізно"},
+{id:"2.5",s:"Czego nie  ___?",v:"rozumieć",a:"rozumiesz",ua:"Чого ти не розумієш"},
+{id:"2.6",s:"Ja  ___ ile kosztuje samochód.",v:"wiedzieć",a:"wiem",ua:"Я знаю, скільки коштує авто"},
+{id:"2.7",s:"My nie  ___ proponować pomocy.",v:"śmieć",a:"śmiemy",ua:"Ми не сміємо пропонувати допомогу"},
+{id:"2.8",s:"Czy oni  ___ coś więcej?",v:"umieć",a:"umieją",ua:"Чи вони вміють щось більше"},
+{id:"2.9",s:"Jak ty  ___ tu przychodzić?",v:"śmieć",a:"śmiesz",ua:"Як ти смієш сюди приходити"},
+{id:"2.10",s:"Wy nic nie ___.",v:"wiedzieć",a:"wiecie",ua:"Ви нічого не знаєте"},
 
 // ===== ĆWICZENIE 3 =====
 {id:"3.1",s:"Hania doskonale gotuje, ale nie ___ robić tak dobrego bigosu.",v:"umieć",a:"umie",ua:"Ганя добре готує, але не вміє"},
@@ -146,8 +146,14 @@ document.getElementById("total").innerText=ex.length
 function render(){
 let e=ex[i]
 document.getElementById("nr").innerText=e.id
-document.getElementById("q").innerText=e.s
-document.getElementById("ua").innerText=""
+//показує питання
+if(e.v) {
+        document.getElementById("q").innerText = e.s + " (" + e.v + ")";
+    } else {
+        document.getElementById("q").innerText = e.s;
+    }
+    
+    document.getElementById("ua").innerText = ""
 
 let t=document.getElementById("task")
 t.innerHTML=""
