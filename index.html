@@ -5,14 +5,71 @@
 <title>Trenażer pełny</title>
 
 <style>
-body{font-family:Arial;max-width:1100px;margin:auto;background:#f2f4fb;padding:20px}
-.box{background:white;padding:20px;border-radius:10px}
-button{margin:4px;padding:8px 12px}
-.correct{background:#b7f5b7}
-.wrong{background:#f7b7b7}
-.word{background:#ddd;padding:6px;margin:4px;display:inline-block;cursor:grab}
-.drop{border:2px dashed #666;padding:10px;min-width:150px;display:inline-block}
-#ua{margin-top:10px;font-style:italic}
+body{
+    font-family: Arial, sans-serif;
+    max-width: 1100px;
+    margin: auto;
+    background: #f2f4fb;
+    padding: 15px; /* Зменшили відступи для малих екранів */
+    line-height: 1.4;
+  }
+.box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+/* Робимо кнопки більшими, щоб по них було зручно влучати пальцем */
+  button {
+    margin: 5px 2px;
+    padding: 12px 16px; 
+    font-size: 16px; /* Запобігає автоматичному зуму в iOS */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+  }
+input {
+    padding: 12px;
+    font-size: 16px;
+    width: 100%; /* Поле вводу на всю ширину на мобільних */
+    max-width: 200px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+.correct { background: #b7f5b7 !important; border-color: #4CAF50 !important; }
+.wrong { background: #f7b7b7 !important; border-color: #f44336 !important; }
+/* Адаптація для Drag-and-drop на мобільних (хоча drag складний для тачскрінів) */
+  .word {
+    background: #ddd;
+    padding: 10px;
+    margin: 5px;
+    display: inline-block;
+    cursor: grab;
+    border-radius: 5px;
+    touch-action: manipulation;
+  }
+.drop {
+    border: 2px dashed #666;
+    padding: 15px;
+    min-width: 120px;
+    display: block; /* На мобільних краще окремим блоком */
+    margin: 10px 0;
+    text-align: center;
+  }
+#ua {
+    margin-top: 15px;
+    font-style: italic;
+    color: #555;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+  }
+/* Медіа-запити для зовсім маленьких екранів */
+  @media (max-width: 480px) {
+    h2 { font-size: 1.2rem; }
+    button { width: 46%; } /* Кнопки в ряд по дві */
+    .nav-buttons button { width: auto; } /* Кнопки стрілок не розтягуємо */
+  }
 </style>
 </head>
 
@@ -160,15 +217,6 @@ document.getElementById("q").innerHTML = e.s + " <span style='color: #007bff; fo
 let t=document.getElementById("task")
 t.innerHTML=""
 
-// Виводимо речення
-    let questionHtml = e.s;
-    // Якщо є дієслово, додаємо його знизу дрібнішим шрифтом або іншим кольором
-    if(e.v) {
-        questionHtml += `<br><small style="color:#666">Infinitiv: <b>${e.v}</b></small>`;
-    }
-
-
-
 if(e.v){
 
 if(mode=="input"){
@@ -191,36 +239,46 @@ t.appendChild(b)
 }
 
 if(mode=="drag"){
-let drop=document.createElement("div")
-drop.className="drop"
-drop.innerText="___"
-drop.ondrop=ev=>{
-ev.preventDefault()
-let w=ev.dataTransfer.getData("text")
-if(w==e.a){
-drop.innerText=w
-score++
-update()
-speak()
-showUA(e.ua)
-}else setTimeout(render,500)
-}
-drop.ondragover=e=>e.preventDefault()
-t.appendChild(drop)
+    let drop=document.createElement("div")
+    drop.className="drop"
+    drop.innerText="___"
+    drop.ondrop=ev=>{
+        ev.preventDefault()
+        let w=ev.dataTransfer.getData("text")
+        if(w==e.a){
+            drop.innerText=w
+            drop.classList.add("correct") // додаємо колір
+            score++
+            update()
+            speak()
+            showUA(e.ua)
+        }else {
+            drop.classList.add("wrong")
+            setTimeout(render, 500)
+        }
+    }
+    drop.ondragover=e=>e.preventDefault()
+    t.appendChild(drop)
 
-let arr=[e.a]
-while(arr.length<4){
-let v=verbs[e.v][Math.floor(Math.random()*6)]
-if(!arr.includes(v))arr.push(v)
-}
-arr.forEach(w=>{
-let s=document.createElement("span")
-s.className="word"
-s.innerText=w
-s.draggable=true
-s.ondragstart=e=>e.dataTransfer.setData("text",w)
-t.appendChild(s)
-})
+    // Створюємо масив варіантів
+    let arr=[e.a]
+    while(arr.length<4){
+        let v=verbs[e.v][Math.floor(Math.random()*6)]
+        if(!arr.includes(v))arr.push(v)
+    }
+    
+    // --- ОСЬ ЦЕЙ РЯДОК ПЕРЕМІШУЄ СЛОВА ---
+    arr.sort(() => Math.random() - 0.5) 
+    // ------------------------------------
+
+    arr.forEach(w=>{
+        let s=document.createElement("span")
+        s.className="word"
+        s.innerText=w
+        s.draggable=true
+        s.ondragstart=e=>e.dataTransfer.setData("text",w)
+        t.appendChild(s)
+    })
 }
 }
 if(e.opts && mode=="test"){
