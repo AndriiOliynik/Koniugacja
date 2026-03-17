@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Trenażer pełny</title>
+
+<style>
+body{font-family:Arial;max-width:1100px;margin:auto;background:#f2f4fb;padding:20px}
+.box{background:white;padding:20px;border-radius:10px}
+button{margin:4px;padding:8px 12px}
+.correct{background:#b7f5b7}
+.wrong{background:#f7b7b7}
+.word{background:#ddd;padding:6px;margin:4px;display:inline-block;cursor:grab}
+.drop{border:2px dashed #666;padding:10px;min-width:150px;display:inline-block}
+#ua{margin-top:10px;font-style:italic}
+</style>
+</head>
+
+<body>
+
+<h2>Trenażer języka polskiego</h2>
+
+<div>Punkty: <span id="score">0</span>/<span id="total"></span></div>
+<div>Ćwiczenie: <span id="nr"></span></div>
+
+<div class="box">
+
+<div id="q"></div>
+
+<button onclick="listen()">🔊 Posłuchaj</button>
+<button onclick="hint()">💡 Podpowiedź</button>
+
+<br>
+
+<button onclick="mode='input';render()">Wpisz</button>
+<button onclick="mode='test';render()">Test</button>
+<button onclick="mode='drag';render()">Drag</button>
+
+<div id="task"></div>
+<div id="ua"></div>
+
+</div>
+
+<button onclick="prev()">⬅</button>
+<button onclick="next()">➡</button>
+<button onclick="shuffle()">🎲</button>
+
+<script>
+
+const verbs={
+"jeść":["jem","jesz","je","jemy","jecie","jedzą"],
+"umieć":["umiem","umiesz","umie","umiemy","umiecie","umieją"],
+"wiedzieć":["wiem","wiesz","wie","wiemy","wiecie","wiedzą"],
+"rozumieć":["rozumiem","rozumiesz","rozumie","rozumiemy","rozumiecie","rozumieją"],
+"śmieć":["śmiem","śmiesz","śmie","śmiemy","śmiecie","śmieją"]
+}
+
+const ex=[
+// ===== ĆWICZENIE 2 =====
+{id:"2.1",s:"To nieprawda, że Polacy (jeść) ___ codziennie bigos.",v:"jeść",a:"jedzą",ua:"Це неправда, що поляки їдять бігос щодня"},
+{id:"2.2",s:"Ty (wiedzieć) ___, że mówię prawdę.",v:"wiedzieć",a:"wiesz",ua:"Ти знаєш, що я кажу правду"},
+{id:"2.3",s:"Nie (umieć) ___ pływać.",v:"umieć",a:"umiem",ua:"Я не вмію плавати"},
+{id:"2.4",s:"Anna (jeść) ___ kolację tak późno.",v:"jeść",a:"je",ua:"Анна їсть вечерю пізно"},
+{id:"2.5",s:"Czego nie (rozumieć) ___?",v:"rozumieć",a:"rozumiesz",ua:"Чого ти не розумієш"},
+{id:"2.6",s:"Ja (wiedzieć) ___ ile kosztuje samochód.",v:"wiedzieć",a:"wiem",ua:"Я знаю, скільки коштує авто"},
+{id:"2.7",s:"My nie (śmieć) ___ proponować pomocy.",v:"śmieć",a:"śmiemy",ua:"Ми не сміємо пропонувати допомогу"},
+{id:"2.8",s:"Czy oni (umieć) ___ coś więcej?",v:"umieć",a:"umieją",ua:"Чи вони вміють щось більше"},
+{id:"2.9",s:"Jak ty (śmieć) ___ tu przychodzić?",v:"śmieć",a:"śmiesz",ua:"Як ти смієш сюди приходити"},
+{id:"2.10",s:"Wy nic nie (wiedzieć)___.",v:"wiedzieć",a:"wiecie",ua:"Ви нічого не знаєте"},
+
+// ===== ĆWICZENIE 3 =====
+{id:"3.1",s:"Hania doskonale gotuje, ale nie ___ robić tak dobrego bigosu.",v:"umieć",a:"umie",ua:"Ганя добре готує, але не вміє"},
+{id:"3.2",s:"Nikt nie ___ przeszkadzać.",v:"śmieć",a:"śmie",ua:"Ніхто не сміє"},
+{id:"3.3.1",s:"Adrian ___ więcej niż koledzy.",v:"wiedzieć",a:"wie",ua:"Адріан знає більше"},
+{id:"3.3.2",s:"On nie ___ problemu.",v:"rozumieć",a:"rozumie",ua:"Він не розуміє"},
+{id:"3.4.1",s:"Kasia ___ tylko potrawy jarskie.",v:"jeść",a:"je",ua:"Касія їсть"},
+{id:"3.4.2",s:"Ja ___ wszystko.",v:"jeść",a:"jem",ua:"Я їм все"},
+{id:"3.5.1",s:"Papuga nie ___ mówić.",v:"umieć",a:"umie",ua:"Папуга не вміє"},
+{id:"3.5.2",s:"Nie ___ dlaczego.",v:"wiedzieć",a:"wiem",ua:"Я не знаю"},
+{id:"3.6.1",s:"Mężczyźni nie ___ kobiet.",v:"rozumieć",a:"rozumieją",ua:"Чоловіки не розуміють"},
+{id:"3.6.2",s:"Czy ktoś ___ mężczyzn?",v:"rozumieć",a:"rozumie",ua:"Хтось розуміє"},
+{id:"3.7.1",s:"Nie ___ zadzwonić.",v:"śmieć",a:"śmiem",ua:"Я не смію"},
+{id:"3.7.2",s:"Adam ___ codziennie.",v:"śmieć",a:"śmie",ua:"Адам сміє"},
+{id:"3.8.1",s:"Pan ___ za mało.",v:"umieć",a:"umie",ua:"Він вміє мало"},
+{id:"3.8.2",s:"Pracownicy ___ więcej.",v:"wiedzieć",a:"wiedzą",ua:"Працівники знають"},
+
+// ===== ĆWICZENIE 4 =====
+{id:"4.1.1",s:"Ja nie ___ kłamać.",v:"umieć",a:"umiem",ua:"Я не вмію брехати"},
+{id:"4.1.2",s:"A ty ___?",v:"umieć",a:"umiesz",ua:"А ти вмієш?"},
+{id:"4.2",s:"Janek nic nie ___ o spotkaniu.",v:"wiedzieć",a:"wie",ua:"Янек нічого не знає"},
+{id:"4.3.1",s:"Nie mogę powiedzieć że ___ cudzoziemców.",v:"rozumieć",a:"rozumiem",ua:"Я розумію"},
+{id:"4.3.2",s:"Oni nie ___ rzeczywistości.",v:"rozumieć",a:"rozumieją",ua:"Вони не розуміють"},
+{id:"4.4.1",s:"Dąbrowscy ___ coś lekkiego.",v:"jeść",a:"jedzą",ua:"Вони їдять"},
+{id:"4.4.2",s:"Anna nie ___ kolacji.",v:"jeść",a:"je",ua:"Вона не їсть"},
+{id:"4.5",s:"Nie ___ prosić.",v:"śmieć",a:"śmiem",ua:"Я не смію"},
+{id:"4.6",s:"My nie ___.",v:"umieć",a:"umiemy",ua:"Ми не вміємо"},
+{id:"4.7",s:"___ że nic nie wiem.",v:"wiedzieć",a:"wiem",ua:"Я знаю"},
+{id:"4.8",s:"Nie ___ nic.",v:"wiedzieć",a:"wiem",ua:"Я не знаю"},
+{id:"4.9",s:"Nie ___ zabierać głosu.",v:"śmieć",a:"śmiem",ua:"Я не смію"},
+{id:"4.10",s:"Czy ty ___ wybaczać?",v:"umieć",a:"umiesz",ua:"Ти вмієш?"},
+
+// ===== ĆWICZENIE 5 =====
+{id:"5.1",s:"My rzadko ___ w tej restauracji.",opts:["jecie","jemy","jem"],a:"jemy",ua:"Ми рідко їмо в цьому ресторані"},
+{id:"5.2",s:"To wszystko, co ___ teraz.",opts:["wiesz","wie","wiem"],a:"wiem",ua:"Те, що я знаю зараз"},
+{id:"5.3",s:"Janek nie ___ jeździć na rowerze.",opts:["umie","umiem","umiesz"],a:"umie",ua:"Янек не вміє їздити"},
+{id:"5.4",s:"Żona nie ___ go budzić.",opts:["śmiem","śmiesz","śmie"],a:"śmie",ua:"Дружина не сміє будити"},
+{id:"5.5",s:"Nie wszyscy to ___",opts:["rozumiesz","rozumiemy","rozumie"],a:"rozumie",ua:"Не всі це розуміють"},
+{id:"5.6",s:"Anna i sąsiedzi ___ kolację.",opts:["jemy","jedzą","jecie"],a:"jedzą",ua:"Вони їдять вечерю"},
+{id:"5.7",s:"Ty nie ___ wielu rzeczy.",opts:["wiesz","wiem","wie"],a:"wiesz",ua:"Ти не знаєш"},
+{id:"5.8",s:"Adam ___ tyle, że zda egzamin.",opts:["umieją","umiecie","umie"],a:"umie",ua:"Адам вміє"},
+
+// ===== ĆWICZENIE 6 =====
+{id:"6.1",s:"Nie ___ tańczyć.",v:"umieć",a:"umiem",ua:"Я не вмію танцювати"},
+{id:"6.2",s:"Synowie ___ o niej więcej.",v:"wiedzieć",a:"wiedzą",ua:"Сини знають"},
+{id:"6.3",s:"Polacy i Czesi nie ___ się.",v:"rozumieć",a:"rozumieją",ua:"Не розуміють"},
+{id:"6.4",s:"Nawet kiedy wszystko ___",v:"umieć",a:"umiem",ua:"Навіть коли я вмію"},
+{id:"6.5",s:"Nie ___ prosić.",v:"śmieć",a:"śmiem",ua:"Я не смію"},
+{id:"6.6",s:"My ___ odmówić.",v:"umieć",a:"umiemy",ua:"Ми вміємо"},
+{id:"6.7",s:"Jeszcze nie ___",v:"wiedzieć",a:"wiemy",ua:"Ми не знаємо"},
+
+// ===== ĆWICZENIE 7 =====
+{id:"7.1",s:"Nie mogę ugotować bo nie",opts:["umiem","znam","potrafię"],a:"znam",ua:"Я не знаю"},
+{id:"7.2",s:"Nie rozwiążę bo nie",opts:["rozumiem","wiem","znam"],a:"wiem",ua:"Я не знаю"},
+{id:"7.3",s:"Nie pytaj bo nie",opts:["jem","znam","śpię"],a:"śpię",ua:"Я сплю"},
+{id:"7.4",s:"Nie jem ślimaków bo nie",opts:["śmiem","jem","spożywam"],a:"śmiem",ua:"Я не смію"},
+{id:"7.5",s:"Nie wystąpię bo nie",opts:["rozumiem","śmiem","umiem"],a:"rozumiem",ua:"Я не розумію"},
+{id:"7.6",s:"Nie przyjdę bo nie",opts:["wiem","pamiętam","umiem"],a:"umiem",ua:"Я не вмію"},
+{id:"7.7",s:"Nie przeproszę bo nie",opts:["śmiem","wiem","rozumiem"],a:"rozumiem",ua:"Я не розумію"},
+{id:"7.8",s:"Nie pójdę spać bo nie",opts:["chcę","umiem","wiem"],a:"wiem",ua:"Я не знаю"},
+
+// ===== ĆWICZENIE 8 (фрагмент приклад) =====
+{id:"8.1",s:"Dlaczego pan tak dużo ___?",v:"jeść",a:"je",ua:"Чому ви так багато їсте"},
+{id:"8.2",s:"___ że ma pan apetyt.",v:"wiedzieć",a:"wiem",ua:"Я знаю"},
+{id:"8.3",s:"Nie ___ pan odmówić.",v:"umieć",a:"umie",ua:"Ви не вмієте"},
+{id:"8.4",s:"Czy ___ pan?",v:"wiedzieć",a:"wie",ua:"Чи ви знаєте"},
+{id:"8.5",s:"Jak ___ pana pouczać?",v:"śmieć",a:"śmiem",ua:"Як я смію"},
+{id:"8.6",s:"___ co robię.",v:"wiedzieć",a:"wiem",ua:"Я знаю"},
+{id:"8.7",s:"Nie ___ zachowania.",v:"rozumieć",a:"rozumiem",ua:"Я не розумію"},
+{id:"8.8",s:"Ja też ___ obfite posiłki.",v:"jeść",a:"jem",ua:"Я теж їм"}
+
+]
+
+let i=0,score=0,mode="input"
+document.getElementById("total").innerText=ex.length
+
+function render(){
+let e=ex[i]
+document.getElementById("nr").innerText=e.id
+document.getElementById("q").innerText=e.s
+document.getElementById("ua").innerText=""
+
+let t=document.getElementById("task")
+t.innerHTML=""
+
+if(e.v){
+
+if(mode=="input"){
+t.innerHTML="<input id='a'><button onclick='check()'>OK</button>"
+}
+
+if(mode=="test"){
+let arr=[e.a]
+while(arr.length<4){
+let v=verbs[e.v][Math.floor(Math.random()*6)]
+if(!arr.includes(v))arr.push(v)
+}
+arr.sort(()=>Math.random()-0.5)
+arr.forEach(o=>{
+let b=document.createElement("button")
+b.innerText=o
+b.onclick=()=>check(o,b)
+t.appendChild(b)
+})
+}
+
+if(mode=="drag"){
+let drop=document.createElement("div")
+drop.className="drop"
+drop.innerText="___"
+drop.ondrop=ev=>{
+ev.preventDefault()
+let w=ev.dataTransfer.getData("text")
+if(w==e.a){
+drop.innerText=w
+score++
+update()
+speak()
+showUA(e.ua)
+}else setTimeout(render,500)
+}
+drop.ondragover=e=>e.preventDefault()
+t.appendChild(drop)
+
+let arr=[e.a]
+while(arr.length<4){
+let v=verbs[e.v][Math.floor(Math.random()*6)]
+if(!arr.includes(v))arr.push(v)
+}
+arr.forEach(w=>{
+let s=document.createElement("span")
+s.className="word"
+s.innerText=w
+s.draggable=true
+s.ondragstart=e=>e.dataTransfer.setData("text",w)
+t.appendChild(s)
+})
+}
+}
+if(e.opts && mode=="test"){
+e.opts.forEach(o=>{
+let b=document.createElement("button")
+b.innerText=o
+b.onclick=()=>check(o,b)
+t.appendChild(b)
+})
+}
+}
+
+function check(val,btn){
+let e=ex[i]
+if(!val)val=document.getElementById("a").value
+if(val==e.a){
+if(btn)btn.classList.add("correct")
+score++
+update()
+speak()
+showUA(e.ua)
+}else if(btn)btn.classList.add("wrong")
+}
+
+function showUA(t){document.getElementById("ua").innerText="UA: "+t}
+function update(){document.getElementById("score").innerText=score}
+
+let plVoice = null
+function loadVoices(){
+let voices = speechSynthesis.getVoices()
+
+// шукаємо будь-який польський голос
+plVoice = voices.find(v => v.lang.toLowerCase().includes("pl"))
+
+console.log("VOICE:", plVoice)
+}
+
+// інколи голоси грузяться асинхронно
+speechSynthesis.onvoiceschanged = loadVoices
+
+// fallback
+loadVoices()
+
+function speak(){
+let e=ex[i]
+
+let utter=new SpeechSynthesisUtterance(
+e.s.replace("___", e.a)
+)
+
+utter.lang = "pl-PL"
+
+if(plVoice){
+utter.voice = plVoice
+}
+
+utter.rate = 0.95
+
+// 🔥 КЛЮЧОВЕ
+utter.onend = () => {
+setTimeout(() => {
+next()
+}, 500)
+}
+
+speechSynthesis.cancel()
+speechSynthesis.speak(utter)
+}
+
+function listen(){
+let e=ex[i]
+
+let utter=new SpeechSynthesisUtterance(
+e.s.replace("___","...")
+)
+
+utter.lang = "pl-PL"
+
+if(plVoice){
+utter.voice = plVoice
+}
+
+utter.rate = 0.95
+
+speechSynthesis.cancel()
+speechSynthesis.speak(utter)
+}
+function hint(){
+let e=ex[i]
+if(e.v)alert(e.v+" → "+verbs[e.v].join(" "))
+}
+
+function next(){if(i<ex.length-1)i++;render()}
+function prev(){if(i>0)i--;render()}
+function shuffle(){ex.sort(()=>Math.random()-0.5);i=0;render()}
+
+render()
+
+</script>
+
+</body>
+</html>
