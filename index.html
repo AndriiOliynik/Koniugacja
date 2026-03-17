@@ -231,7 +231,9 @@ t.innerHTML=""
 if(e.v){
 
 if(mode=="input"){
-t.innerHTML="<input id='a'><button onclick='check()'>OK</button>"
+//t.innerHTML="<input id='a'><button onclick='check()'>OK</button>"
+
+t.innerHTML = "<input id='a' onkeypress='if(event.key===\"Enter\") check()'><button onclick=\"check()\">OK</button>"
 }
 
 if(mode=="test"){
